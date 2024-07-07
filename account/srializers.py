@@ -35,6 +35,10 @@ class UserRegistrationSerializers(serializers.ModelSerializer):
 
         account = User(username=username,first_name=first_name,last_name=last_name,email=email)
         user_model = UserRegistrarionModel(user=account,account_type=account_type,image=image)
+        
+        if account_type=='TEACHER':
+            account.is_staff=True
+
         account.set_password(password)
         account.is_active=False
         account.save()
