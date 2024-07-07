@@ -25,7 +25,7 @@ class UserRegistrationView(APIView):
             uid = urlsafe_base64_encode(force_bytes(user[0].pk))
 
             email_subject = 'Confirm your email.'
-            confirm_link = f'http://127.0.0.1:8000/account/active/{uid}/{token}/'
+            confirm_link = f'https://online-school-lr66.onrender.com/account/active/{uid}/{token}/'
             email_body=render_to_string('./account/confirm_email.html',{'confirm_link':confirm_link})
             email = EmailMultiAlternatives(email_subject,'',to=[user[0].email])
             email.attach_alternative(email_body,'text/html')
