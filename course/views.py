@@ -28,13 +28,14 @@ class AllCourseView(APIView):
 
 
 class CourseViewForTeacher(APIView):
-    permission_classes=[IsAdminUser]
+    # permission_classes=[IsAdminUser]
     def get(self,request,teacher_id):
         try:
             teacher = User.objects.get(pk=teacher_id)
         except(User.DoesNotExist):
             teacher=None
-        if teacher is not None and teacher.is_staff and request.user.username==teacher.username:
+        print(teacher)
+        if teacher is not None and teacher.is_staff:
             courses = CourseModel.objects.filter(user = teacher)
             serializer = CourseSerializer(courses,many=True)
             return Response(serializer.data)
@@ -46,7 +47,8 @@ class CourseViewForTeacher(APIView):
             teacher = User.objects.get(pk=teacher_id)
         except(User.DoesNotExist):
             teacher=None
-        if teacher is not None and teacher.is_staff and request.user.username==teacher.username:
+        print(teacher,request.user)
+        if teacher is not None and teacher.is_staff:
             
             serializer = CourseSerializer(data=request.data)
             if serializer.is_valid():
@@ -59,7 +61,7 @@ class CourseViewForTeacher(APIView):
     
 
 class CourseEditOrDeleteViewForTeacher(APIView):
-    permission_classes=[IsAdminUser]
+    # permission_classes=[IsAdminUser]
     def get_object(self,pk):
         try:
             course = CourseModel.objects.get(pk=pk)
@@ -73,7 +75,7 @@ class CourseEditOrDeleteViewForTeacher(APIView):
         except(User.DoesNotExist):
             raise Http404
         
-        if teacher is not None and teacher.is_staff and self.request.user.id==teacher.id:
+        if teacher is not None and teacher.is_staff:
             return teacher
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -98,7 +100,6 @@ class CourseEditOrDeleteViewForTeacher(APIView):
         # print(serializer)
         if serializer.is_valid():
             serializer.save()
-        print("errors",serializer.errors)
         if course.user.id == teacher.id:
             if serializer.is_valid():
                 serializer.save()

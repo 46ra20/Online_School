@@ -31,7 +31,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://online-school-lr66.onrender.com'
+    'https://online-school-lr66.onrender.com',
+    'http://127.0.0.1:5500'
 ]
 
 # Application definition
