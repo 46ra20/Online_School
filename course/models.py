@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class CourseCategory(models.Model):
     category = models.CharField(max_length=30)
+    slug = models.SlugField(default="",null=False)
 
     def __str__(self) -> str:
         return self.category

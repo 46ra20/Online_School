@@ -8,5 +8,6 @@ class AdminTable(admin.ModelAdmin):
     def teacher_name(self,obj):
        return obj.user.first_name+' '+obj.user.last_name
 
+
 admin.site.register(CourseCategory)
 admin.site.register(CourseModel,AdminTable)
