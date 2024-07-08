@@ -34,7 +34,6 @@ CSRF_TRUSTED_ORIGINS = [
     'https://online-school-lr66.onrender.com'
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,11 +43,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 3rd party app
+    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
     'account',
     'course'
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:5500'
+]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -58,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'final_exam1.urls'
@@ -131,7 +140,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 MEDIA_URL=''
 
-# Default primary key field type
+# Default primary key fihttp://127.0.0.1:5500/eld type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -6,3 +6,4 @@ djangorestframework
 pillow
 python-dotenv
 sqlparse
+django-cors-headers
