@@ -8,7 +8,7 @@ router = DefaultRouter()
 
 urlpatterns = [
     path('public/<id>/',CourseView.as_view()),
-    path('public/<home>/',AllCourseView.as_view()),
+    path('public/all/<home>/',AllCourseView.as_view()),
 
     path('authentic/<teacher_id>/',CourseViewForTeacher.as_view()),
     path('details/<teacher_id>/<id>/',CourseEditOrDeleteViewForTeacher.as_view()),

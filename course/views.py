@@ -20,7 +20,7 @@ class CourseView(APIView):
 class AllCourseView(APIView):
     def get(self,request,home):
         if home=='home':
-            courses = CourseModel.objects.all()[:4]
+            courses = CourseModel.objects.all()[0:4]
         else:
             courses = CourseModel.objects.all()
         serializer = CourseSerializer(courses,many=True)

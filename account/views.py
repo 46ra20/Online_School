@@ -1,11 +1,15 @@
 from django.shortcuts import render,redirect
 from rest_framework.views import APIView
-from .srializers import UserRegistrationSerializers,User,UserLoginSerializer
+from .srializers import UserRegistrationSerializers,User,UserLoginSerializer,UserRegistrarionModel
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import authenticate,login,logout
 from rest_framework.authtoken.models import Token
+from django.http import Http404
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import HttpResponse
+from django.http import JsonResponse
 
 from rest_framework.response import Response
 from django.template.loader import render_to_string
@@ -76,3 +80,51 @@ class LogoutView(APIView):
         request.user.auth_token.delete()
         logout(request)
         return redirect('login')
+
+# class GetUserDetails(APIView):
+#     permission_classes=[IsAuthenticated]
+#     def get(self,request,pk):
+#         try:
+#             user = User.objects.get(pk=pk)
+#             additional_info = UserRegistrarionModel.objects.get(user=user)
+#         except(User.DoesNotExist):
+#             return Http404
+#         # serializer = UserRegistrationSerializers(user,additional_info)
+#         context = {
+#             'user_name':user.username,
+#             'first_name':user.first_name,
+#             'last_name':user.last_name,
+#             'email':user.email,
+#             'account_type':additional_info.account_type,
+#             'image':additional_info.image,
+
+#         }
+#         serializer = UserRegistrarionModel(context)
+
+#         return Response(serializer)
+    
+def GetUserDetails(request,pk):
+    print("Get user details", pk)
+    try:
+        user = User.objects.get(id=pk)
+        additional_info = UserRegistrarionModel.objects.get(user=pk)
+        print(user,additional_info)
+    except(User.DoesNotExist):
+        user=None
+        additional_info=None
+        raise Http404
+    
+    # serializer = UserRegistrationSerializers(user,additional_info)
+    context = {
+            'user_name':user.username,
+            'first_name':user.first_name,
+            'last_name':user.last_name,
+            'email':user.email,
+            'account_type':additional_info.account_type,
+            'image':str(additional_info.image),
+
+        }
+    # if serializer.is_valid():
+    #     return Response(serializer.data)
+    # raise Http404
+    return JsonResponse(context)
