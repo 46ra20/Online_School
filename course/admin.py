@@ -7,7 +7,8 @@ class AdminTable(admin.ModelAdmin):
 
     def teacher_name(self,obj):
        return obj.user.first_name+' '+obj.user.last_name
+class CategoryAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ["category"]}
 
-
-admin.site.register(CourseCategory)
+admin.site.register(CourseCategory,CategoryAdmin)
 admin.site.register(CourseModel,AdminTable)
