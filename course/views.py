@@ -18,8 +18,11 @@ class CourseView(APIView):
         return Response(serializer.data)
 
 class AllCourseView(APIView):
-    def get(self,request):
-        courses = CourseModel.objects.all()
+    def get(self,request,home):
+        if home=='home':
+            courses = CourseModel.objects.all()[:4]
+        else:
+            courses = CourseModel.objects.all()
         serializer = CourseSerializer(courses,many=True)
         return Response(serializer.data)
 
