@@ -1,21 +1,37 @@
 from django.shortcuts import render
-from .models import CourseModel
-from .serializers import CourseSerializer
+from .models import CourseModel,CourseCategory
+from .serializers import CourseSerializer,CourseCategorySerializer
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 from django.contrib.auth.models import User
 from django.http import Http404
 # Create your views here.
+
+class CategoryView(ModelViewSet):
+    queryset=CourseCategory.objects.all()
+    serializer_class=CourseCategorySerializer
+    # Response(serializer.data)
+class GetCourseByDep(APIView):
+    def get(self,request,dep_id):
+        try:
+            courses = CourseModel.objects.filter(department=dep_id)
+        except(CourseModel.DoesNotExist):
+            raise ('No data Found')
+        serializer=CourseSerializer(courses,many=True)
+        return Response(serializer.data)
 
 class CourseView(APIView):
     def get(self,request,id):
         courses = CourseModel.objects.filter(pk=id)
         serializer = CourseSerializer(courses,many=True)
         return Response(serializer.data)
+
+
 
 class AllCourseView(APIView):
     def get(self,request,home):
