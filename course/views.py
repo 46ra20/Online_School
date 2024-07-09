@@ -91,18 +91,20 @@ class CourseEditOrDeleteViewForTeacher(APIView):
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
     
-    def put(self,request,teacher_id,id):
+    def patch(self,request,teacher_id,id):
         course = self.get_object(pk=id)
         teacher = self.get_teacher(teacher_id=teacher_id)
 
-        serializer = CourseSerializer(course, data = request.data)
+        serializer = CourseSerializer(course, data = request.data,partial=True)
 
         # print(serializer)
-        if serializer.is_valid():
-            serializer.save()
+        # if serializer.is_valid():
+        #     serializer.save()
         if course.user.id == teacher.id:
+            print(serializer)
             if serializer.is_valid():
                 serializer.save()
+                print(serializer.errors)
                 return Response(serializer.data)
             else:
                 return Response(status=status.HTTP_501_NOT_IMPLEMENTED)
