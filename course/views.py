@@ -66,7 +66,7 @@ class CourseViewForTeacher(APIView):
         print(teacher,request.user)
         if teacher is not None and teacher.is_staff:
             
-            serializer = CourseSerializer(data=request.data)
+            serializer = CourseSerializer(data=request.data,many=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data,status=status.HTTP_201_CREATED)

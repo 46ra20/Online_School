@@ -63,7 +63,7 @@ class UserLoginView(APIView):
             username = serializer.validated_data['username']
             password = serializer.validated_data['password']
 
-            user = authenticate(username=username,password=password)
+            user = authenticate(request,username=username,password=password)
 
             login(request=request, user=user, backend='django.contrib.auth.backends.ModelBackend')
 
