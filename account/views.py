@@ -64,8 +64,10 @@ class UserLoginView(APIView):
             password = serializer.validated_data['password']
 
             user = authenticate(request,username=username,password=password)
+            print(user)
 
-            login(request=request, user=user, backend='django.contrib.auth.backends.ModelBackend')
+            getUser = login(request=request, user=user, backend='django.contrib.auth.backends.ModelBackend')
+            print(getUser)
 
             if user:
                 token,_ = Token.objects.get_or_create(user=user)
