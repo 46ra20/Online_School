@@ -24,5 +24,5 @@ class CourseModel(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return self.user.first_name+' '+self.user.last_name
+        return f'{self.title}'
 

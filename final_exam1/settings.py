@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'account',
-    'course'
+    'course',
+    'student'
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True

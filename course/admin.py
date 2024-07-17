@@ -6,7 +6,7 @@ class AdminTable(admin.ModelAdmin):
     list_display=['teacher_name','title','price','course_duration','date']
 
     def teacher_name(self,obj):
-       return obj.user.first_name+' '+obj.user.last_name
+       return obj.user
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ["category"]}
 

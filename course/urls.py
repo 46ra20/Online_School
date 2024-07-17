@@ -7,7 +7,7 @@ router = DefaultRouter()
 # router.register('authentic',CourseView)
 
 urlpatterns = [
-    path('public/<id>/',CourseView.as_view()),
+    path('public/<id>/<user>/',CourseView.as_view()),
     path('public/all/<home>/',AllCourseView.as_view()),
 
     path('authentic/<teacher_id>/',CourseViewForTeacher.as_view()),

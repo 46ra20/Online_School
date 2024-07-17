@@ -10,6 +10,8 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from django.contrib.auth.models import User
 from django.http import Http404
+
+from student.models import CourseEnrolModel
 # Create your views here.
 
 class CategoryView(ModelViewSet):
@@ -21,15 +23,24 @@ class GetCourseByDep(APIView):
         try:
             courses = CourseModel.objects.filter(department=dep_id)
         except(CourseModel.DoesNotExist):
-            raise ('No data Found')
+            raise ({'error':'No data Found'})
         serializer=CourseSerializer(courses,many=True)
         return Response(serializer.data)
 
 class CourseView(APIView):
-    def get(self,request,id):
-        courses = CourseModel.objects.filter(pk=id)
-        serializer = CourseSerializer(courses,many=True)
-        return Response(serializer.data)
+    def get(self,request,id,user):
+        if user!=0:
+            try:
+                is_avilable = CourseEnrolModel.objects.filter(enrol_course=int(id),enrol_by=int(user))
+            except(CourseEnrolModel.DoesNotExist):
+                return Response({'error':'No Course Available with this id'})
+        is_Enroled=False
+        if len(is_avilable)!=0:
+            is_Enroled = True
+        course = CourseModel.objects.get(pk=id)
+        serializer = CourseSerializer(course)
+        return Response({'data':serializer.data,'is_Enroled':is_Enroled})
+            
 
 
 
@@ -50,7 +61,6 @@ class CourseViewForTeacher(APIView):
             teacher = User.objects.get(pk=teacher_id)
         except(User.DoesNotExist):
             teacher=None
-        print(teacher)
         if teacher is not None and teacher.is_staff:
             courses = CourseModel.objects.filter(user = teacher)
             serializer = CourseSerializer(courses,many=True)
