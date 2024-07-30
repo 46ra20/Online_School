@@ -10,7 +10,6 @@ from django.http import Http404
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import HttpResponse
 from django.http import JsonResponse
-
 from rest_framework.response import Response
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives

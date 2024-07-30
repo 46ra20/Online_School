@@ -12,6 +12,7 @@ from django.contrib.auth.models import User
 from django.http import Http404
 
 from student.models import CourseEnrolModel
+from rest_framework.pagination import PageNumberPagination,CursorPagination
 # Create your views here.
 
 class CategoryView(ModelViewSet):
@@ -43,15 +44,33 @@ class CourseView(APIView):
             
 
 
+class CustomPagePagination(PageNumberPagination):
+    page_size=8
+    # oder
+    page_query_param='page_no'
+    max_page_size=1000
+# class CustomCoursePagination(pagi):
+#     page_size=5
+#     # oder
+#     page_query_param='page_no'
+#     max_page_size=1000
 
 class AllCourseView(APIView):
     def get(self,request,home):
         if home=='home':
             courses = CourseModel.objects.all()[0:4]
+            serializer = CourseSerializer(courses,many=True)
+            return Response(serializer.data)
+
         else:
             courses = CourseModel.objects.all()
-        serializer = CourseSerializer(courses,many=True)
-        return Response(serializer.data)
+            serializer = CourseSerializer(courses,many=True)
+            pagination = CustomPagePagination()
+            page = pagination.paginate_queryset(serializer.data,request)
+            return pagination.get_paginated_response(page)
+
+
+            
 
 
 class CourseViewForTeacher(APIView):

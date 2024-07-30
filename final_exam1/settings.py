@@ -53,6 +53,19 @@ INSTALLED_APPS = [
     'student'
 ]
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_PAGINATION_CLASS': 
+#         'rest_framework.pagination.PageNumberPagination',
+    
+#     # Show 5 records in a single page
+#     'PAGE_SIZE': 5
+# }
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+#     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.CursorPagination', 
+# }
+
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
