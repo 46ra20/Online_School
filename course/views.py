@@ -45,7 +45,7 @@ class CourseView(APIView):
 
 
 class CustomPagePagination(PageNumberPagination):
-    page_size=8
+    page_size=12
     # oder
     page_query_param='page_no'
     max_page_size=1000
